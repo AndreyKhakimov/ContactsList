@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ContactsNetworkManager {
     
@@ -27,11 +28,17 @@ class ContactsNetworkManager {
     
     private let networkManager = NetworkManager.shared
     
-    func getContacts(count: Int, completion: @escaping ([Contact]?) -> Void) {
+    func getContacts(count: Int, completion: @escaping (Result<[Contact], NetworkError>) -> Void) {
         networkManager.sendRequest(
             endpoint: Endpoints.getContacts(count),
-            completion: { (response: ContactsResponse?) in
-                completion(response?.results)
+            completion: { (result: Result<ContactsResponse, NetworkError>) in
+                switch result {
+                case .success(let contacts):
+                    completion(.success(contacts.results))
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         )
     }

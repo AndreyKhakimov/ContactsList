@@ -11,8 +11,8 @@ import Kingfisher
 class DetailInfoViewController: UIViewController {
 
     @IBOutlet weak var detailInfoLabel: UILabel!
-    
     @IBOutlet weak var photoImageView: UIImageView!
+    
     var contact: Contact!
     
     override func viewDidLoad() {
@@ -21,15 +21,5 @@ class DetailInfoViewController: UIViewController {
         detailInfoLabel.text = contact.description
         photoImageView.kf.setImage(with: imageURL)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
