@@ -6,5 +6,6 @@ target 'ContactsList' do
   use_frameworks!
 
   pod 'Kingfisher', '~> 7.1' 
+  pod 'RealmSwift', '~>10'
 
 end

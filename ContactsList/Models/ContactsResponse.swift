@@ -5,21 +5,22 @@
 //  Created by Andrey Khakimov on 06.12.2021.
 //
 
-import Foundation
+import RealmSwift
 
-struct ContactsResponse: Codable {
-    let results: [Contact]
+class ContactsResponse: Object, Codable {
+    @Persisted var results = List<Contact>()
 }
 
-struct Contact: Codable {
-    let name: Name
-    let location: Location
-    let email: String
-    let picture: Picture
-    let cellPhone: String
-    let homePhone: String
+class Contact: Object, Codable {
+    @Persisted var name: Name
+    @Persisted var location: Location
+    @Persisted var email: String
+    @Persisted var picture: Picture
+    @Persisted var cellPhone: String
+    @Persisted var homePhone: String
     
-    var description: String {
+    //why override
+    var info: String {
         """
     Name: \(name.fullname)
     Location: \(location.city), \(location.street.fullStreet)
@@ -36,27 +37,27 @@ struct Contact: Codable {
     }
 }
 
-struct Name: Codable {
-    let first: String
-    let last: String
+class Name: Object, Codable {
+    @Persisted var first: String
+    @Persisted var last: String
     var fullname: String {
         first + " " + last
     }
 }
 
-struct Location: Codable {
-    let street: Street
-    let city: String
+class Location: Object, Codable {
+    @Persisted var street: Street
+    @Persisted var city: String
 }
 
-struct Street: Codable {
-    let number: Int
-    let name: String
+class Street: Object, Codable {
+    @Persisted var number: Int
+    @Persisted var name: String
     var fullStreet: String {
         name + " \(number)"
     }
 }
 
-struct Picture: Codable {
-    let large: String
+class Picture: Object, Codable {
+    @Persisted var large: String
 }
