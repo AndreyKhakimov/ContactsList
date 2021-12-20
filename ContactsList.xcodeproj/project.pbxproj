@@ -18,6 +18,7 @@
 		4228B822275E3DC200D10B33 /* DetailInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B821275E3DC200D10B33 /* DetailInfoViewController.swift */; };
 		4228B824275E9CC700D10B33 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B823275E9CC700D10B33 /* ContactTableViewCell.swift */; };
 		4228B82E2761128B00D10B33 /* ContactsNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B82D2761128B00D10B33 /* ContactsNetworkManager.swift */; };
+		42573508276A37D500529CD8 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42573507276A37D500529CD8 /* StorageManager.swift */; };
 		42F403732768FF40001FC613 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F403722768FF40001FC613 /* UIViewController+Alert.swift */; };
 		E227AE3E656A4110860B245D /* Pods_ContactsList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A8CCF20C1D7EF334EF63A9 /* Pods_ContactsList.framework */; };
 /* End PBXBuildFile section */
@@ -37,6 +38,7 @@
 		4228B821275E3DC200D10B33 /* DetailInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoViewController.swift; sourceTree = "<group>"; };
 		4228B823275E9CC700D10B33 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		4228B82D2761128B00D10B33 /* ContactsNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsNetworkManager.swift; sourceTree = "<group>"; };
+		42573507276A37D500529CD8 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		42F403722768FF40001FC613 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		DE224A4A19460065084541A2 /* Pods-ContactsList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsList.debug.xcconfig"; path = "Target Support Files/Pods-ContactsList/Pods-ContactsList.debug.xcconfig"; sourceTree = "<group>"; };
 		F7A8CCF20C1D7EF334EF63A9 /* Pods_ContactsList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ContactsList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +110,7 @@
 			children = (
 				4228B81B275E127900D10B33 /* NetworkManager.swift */,
 				4228B82D2761128B00D10B33 /* ContactsNetworkManager.swift */,
+				42573507276A37D500529CD8 /* StorageManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				4228B82E2761128B00D10B33 /* ContactsNetworkManager.swift in Sources */,
 				4228B824275E9CC700D10B33 /* ContactTableViewCell.swift in Sources */,
 				4228B81E275E129E00D10B33 /* ContactsTableViewController.swift in Sources */,
+				42573508276A37D500529CD8 /* StorageManager.swift in Sources */,
 				4228B808275E10F300D10B33 /* AppDelegate.swift in Sources */,
 				4228B80A275E10F300D10B33 /* SceneDelegate.swift in Sources */,
 			);
@@ -461,16 +465,17 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = AAjr.ContactsList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -489,16 +494,17 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = AAjr.ContactsList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

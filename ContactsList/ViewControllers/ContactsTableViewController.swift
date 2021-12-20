@@ -7,16 +7,19 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 class ContactsTableViewController: UITableViewController {
     
-    let contactsNetworkManager = ContactsNetworkManager()
+    private let contactsNetworkManager = ContactsNetworkManager()
+    private let storageManager = StorageManager.shared
     
     var contacts = [Contact]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData(with: 100)
+        setupRefreshControl()
         
     }
     
@@ -27,8 +30,8 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customContact", for: indexPath) as! ContactTableViewCell
         let contact = contacts[indexPath.row]
-        let imageURL = URL(string: contact.picture.large)!
-        cell.configure(image: imageURL, name: contact.name.fullname)
+        let imageURL = URL(string: contact.picture?.large ?? "")!
+        cell.configure(image: imageURL, name: contact.name?.fullname ?? "")
         return cell
     }
     
@@ -49,7 +52,11 @@ class ContactsTableViewController: UITableViewController {
                     switch result {
                     case .success(let contacts):
                         self.contacts = contacts
+                        self.storageManager.save(contacts)
                         self.tableView.reloadData()
+                        if self.refreshControl != nil {
+                            self.refreshControl?.endRefreshing()
+                        }
                         
                     case .failure(let error):
                         self.showAlert(title: error.title, message: error.description)
@@ -57,6 +64,36 @@ class ContactsTableViewController: UITableViewController {
                 }
             }
         )
+    }
+    
+    @objc private func fetchData() {
+        contactsNetworkManager.getContacts(
+            count: 100,
+            completion: { [weak self] result in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    
+                    switch result {
+                    case .success(let contacts):
+                        self.contacts = contacts
+                        self.storageManager.save(contacts)
+                        self.tableView.reloadData()
+                        if self.refreshControl != nil {
+                            self.refreshControl?.endRefreshing()
+                        }
+                        
+                    case .failure(let error):
+                        self.showAlert(title: error.title, message: error.description)
+                    }
+                }
+            }
+        )
+    }
+    
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl?.addTarget(self, action: #selector(fetchData as () -> Void), for: .valueChanged)
     }
     
 }

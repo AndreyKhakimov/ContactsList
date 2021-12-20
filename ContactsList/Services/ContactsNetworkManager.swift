@@ -5,7 +5,7 @@
 //  Created by Andrey Khakimov on 08.12.2021.
 //
 
-import Foundation
+import RealmSwift
 import UIKit
 
 class ContactsNetworkManager {
@@ -27,6 +27,7 @@ class ContactsNetworkManager {
     }
     
     private let networkManager = NetworkManager.shared
+    private let storageManager = StorageManager.shared
     
     func getContacts(count: Int, completion: @escaping (Result<[Contact], NetworkError>) -> Void) {
         networkManager.sendRequest(
@@ -35,6 +36,7 @@ class ContactsNetworkManager {
                 switch result {
                 case .success(let contacts):
                     completion(.success(contacts.results))
+//                    self.storageManager.save(contacts.results)
                     
                 case .failure(let error):
                     completion(.failure(error))

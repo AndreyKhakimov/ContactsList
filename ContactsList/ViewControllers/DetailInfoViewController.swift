@@ -17,8 +17,8 @@ class DetailInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let imageURL = URL(string: contact.picture.large)!
-        detailInfoLabel.text = contact.description
+        let imageURL = URL(string: contact.picture?.large ?? "")!
+        detailInfoLabel.text = contact.info
         photoImageView.kf.setImage(with: imageURL)
     }
 
