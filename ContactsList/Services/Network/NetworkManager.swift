@@ -7,42 +7,14 @@
 
 import Foundation
 
-protocol Endpoint {
-    var url: URL { get }
-    var httpMethod: String { get }
-}
-
-enum NetworkError: Error {
-    case noData
-    case decodingError
-    case other(Error)
-    
-    var title: String {
-        "Error"
-    }
-    
-    var description: String {
-        switch self {
-        case .noData:
-            return "The data received from the server is invalid"
-            
-        case .decodingError:
-            return "The data can not be decoded"
-            
-        case .other(let error):
-            return error.localizedDescription
-        }
-    }
-}
-
 class NetworkManager {
     
     static let shared = NetworkManager()
     static let hostUrl = "https://randomuser.me/api"
     
-   private init() {}
+    private init() {}
     
-    func sendRequest<Response: Decodable>(endpoint: Endpoint, completion: @escaping (Result<Response, NetworkError>) -> Void) {
+    func sendRequest<Response: Decodable>(endpoint: EndpointProtocol, completion: @escaping (Result<Response, NetworkError>) -> Void) {
         var request = URLRequest(url: endpoint.url)
         request.httpMethod = endpoint.httpMethod
         

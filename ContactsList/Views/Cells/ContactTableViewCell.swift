@@ -19,8 +19,10 @@ class ContactTableViewCell: UITableViewCell {
         contactImage.image = UIImage(named: "photo.artframe")
     }
     
-    func configure(image: URL, name: String) {
-        contactImage.kf.setImage(with: image)
+    func configure(image: URL?, name: String) {
+        if let image = image {
+            contactImage.kf.setImage(with: image)
+        }
         contactLabel.text = name
     }
 

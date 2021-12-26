@@ -10,13 +10,17 @@ import UIKit
 
 class ContactsNetworkManager {
     
-    private enum Endpoints: Endpoint {
+    private enum Endpoints: EndpointProtocol {
         case getContacts(Int)
+        
         var url: URL {
+            var query = ""
             switch self {
             case .getContacts(let number):
-                return URL(string: NetworkManager.hostUrl + "/?results=\(number)")!
+                query = "/?results=\(number)"
             }
+            
+            return URL(string: Endpoints.hostURL + query)!
         }
         var httpMethod: String {
             switch self {
@@ -27,7 +31,6 @@ class ContactsNetworkManager {
     }
     
     private let networkManager = NetworkManager.shared
-    private let storageManager = StorageManager.shared
     
     func getContacts(count: Int, completion: @escaping (Result<[Contact], NetworkError>) -> Void) {
         networkManager.sendRequest(
@@ -36,7 +39,6 @@ class ContactsNetworkManager {
                 switch result {
                 case .success(let contacts):
                     completion(.success(contacts.results))
-//                    self.storageManager.save(contacts.results)
                     
                 case .failure(let error):
                     completion(.failure(error))

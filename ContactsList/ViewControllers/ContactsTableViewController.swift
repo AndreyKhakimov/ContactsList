@@ -14,10 +14,30 @@ class ContactsTableViewController: UITableViewController {
     private let contactsNetworkManager = ContactsNetworkManager()
     private let storageManager = StorageManager.shared
     
-    var contacts = [Contact]()
+    var contacts: Results<Contact>!
+    private var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contacts = try! Realm().objects(Contact.self).sorted(byKeyPath: "name.last")
+        token = contacts.observe(on: .main) { [weak self] results in
+            self?.tableView.reloadData()
+// Needs to be updated for rows selection
+            
+//            switch results {
+//            case .initial:
+//                self?.tableView.reloadData()
+//            case .error(let error):
+//                self?.showAlert(title: "Error", message: error.localizedDescription)
+//            case .update(_, let deletions, let insertions, let modifications):
+//                self?.tableView.beginUpdates()
+//                self?.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0)}, with: .automatic)
+//                self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0)}, with: .automatic)
+//                self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0)}, with: .automatic)
+//                self?.tableView.endUpdates()
+//            }
+            
+        }
         fetchData(with: 100)
         setupRefreshControl()
         
@@ -51,9 +71,7 @@ class ContactsTableViewController: UITableViewController {
                     
                     switch result {
                     case .success(let contacts):
-                        self.contacts = contacts
                         self.storageManager.save(contacts)
-                        self.tableView.reloadData()
                         if self.refreshControl != nil {
                             self.refreshControl?.endRefreshing()
                         }
@@ -66,34 +84,14 @@ class ContactsTableViewController: UITableViewController {
         )
     }
     
-    @objc private func fetchData() {
-        contactsNetworkManager.getContacts(
-            count: 100,
-            completion: { [weak self] result in
-                DispatchQueue.main.async {
-                    guard let self = self else { return }
-                    
-                    switch result {
-                    case .success(let contacts):
-                        self.contacts = contacts
-                        self.storageManager.save(contacts)
-                        self.tableView.reloadData()
-                        if self.refreshControl != nil {
-                            self.refreshControl?.endRefreshing()
-                        }
-                        
-                    case .failure(let error):
-                        self.showAlert(title: error.title, message: error.description)
-                    }
-                }
-            }
-        )
+    @objc private func refreshAction() {
+        fetchData(with: 100)
     }
     
     private func setupRefreshControl() {
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl?.addTarget(self, action: #selector(fetchData as () -> Void), for: .valueChanged)
+        refreshControl?.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
     }
     
 }

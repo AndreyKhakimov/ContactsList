@@ -27,6 +27,11 @@ class StorageManager {
     func save(_ objects: [Contact]) {
         do {
             try realm.write {
+                realm.delete(realm.objects(Contact.self))
+                realm.delete(realm.objects(Name.self))
+                realm.delete(realm.objects(Location.self))
+                realm.delete(realm.objects(Street.self))
+                realm.delete(realm.objects(Picture.self))
                 realm.add(objects)
                 print("Realm is located at:", realm.configuration.fileURL!)
             }

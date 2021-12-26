@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YWC-za-yOY">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -29,7 +30,7 @@
         <!--Contacts-->
         <scene sceneID="F3Z-u3-gKy">
             <objects>
-                <tableViewController id="GWc-v6-7vm" customClass="ContactsTableViewController" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GWc-v6-7vm" customClass="AddingContactsTableViewController" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="ZID-3A-0Gn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -42,17 +43,12 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" translatesAutoresizingMaskIntoConstraints="NO" id="pd7-AS-JNK">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" translatesAutoresizingMaskIntoConstraints="NO" id="pd7-AS-JNK" customClass="RoundedImageView" customModule="ContactsList" customModuleProvider="target">
                                             <rect key="frame" x="20" y="10" width="36" height="36"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="36" id="kl4-eo-l1Q"/>
                                                 <constraint firstAttribute="width" constant="36" id="neZ-47-n6D"/>
                                             </constraints>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                    <integer key="value" value="18"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Osx-jd-HzD">
                                             <rect key="frame" x="64" y="0.0" width="334" height="56"/>
@@ -73,7 +69,6 @@
                                 <connections>
                                     <outlet property="contactImage" destination="pd7-AS-JNK" id="ECz-e4-UMn"/>
                                     <outlet property="contactLabel" destination="Osx-jd-HzD" id="dvq-rI-BGI"/>
-                                    <segue destination="kMd-O4-a4h" kind="show" id="rAu-NK-V8j"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -82,11 +77,124 @@
                             <outlet property="delegate" destination="GWc-v6-7vm" id="bgb-HT-6IN"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Contacts" id="KPf-ln-V9Y"/>
+                    <navigationItem key="navigationItem" title="Contacts" id="KPf-ln-V9Y">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="LRc-fh-7Aj">
+                            <connections>
+                                <segue destination="6OC-kl-JeU" kind="presentation" id="zs5-8O-N8M"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oW6-90-rbs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="889.85507246376824" y="68.973214285714278"/>
+            <point key="canvasLocation" x="900" y="69"/>
+        </scene>
+        <!--New Contact View Controller-->
+        <scene sceneID="W5V-bU-uhI">
+            <objects>
+                <viewController id="6OC-kl-JeU" customClass="NewContactViewController" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b1L-vK-V3e">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" translatesAutoresizingMaskIntoConstraints="NO" id="1gB-W0-ToS" customClass="RoundedImageView" customModule="ContactsList" customModuleProvider="target">
+                                <rect key="frame" x="107" y="116" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Ar0-iq-a2x"/>
+                                    <constraint firstAttribute="height" constant="200" id="qTF-3l-EK2"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="357-It-4Tu">
+                                <rect key="frame" x="30" y="397" width="354" height="304"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j7l-ju-xbm">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pbv-hf-klo">
+                                        <rect key="frame" x="0.0" y="54" width="354" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Cell phone" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ges-Qb-bDr">
+                                        <rect key="frame" x="0.0" y="108" width="354" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Home phone" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O2E-Jg-n5O">
+                                        <rect key="frame" x="0.0" y="162" width="354" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Op-zl-Vqg">
+                                        <rect key="frame" x="0.0" y="216" width="354" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Adress" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Nf-sN-LV5">
+                                        <rect key="frame" x="0.0" y="270" width="354" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V6v-2L-aab">
+                                <rect key="frame" x="0.0" y="30" width="414" height="56"/>
+                                <items>
+                                    <navigationItem title="New contact" id="e6g-el-Mh0">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="eeC-UL-xFz">
+                                            <connections>
+                                                <action selector="cancelButtonPressed:" destination="6OC-kl-JeU" id="g2q-5o-fSV"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="iUD-HW-wFN">
+                                            <connections>
+                                                <action selector="doneButtonPressed:" destination="6OC-kl-JeU" id="vPM-62-qM5"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Krl-dG-0ri">
+                                <rect key="frame" x="157" y="336" width="100" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="4Aj-Ws-SbW"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="7ZD-MB-Sp2"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Add photo"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="2cG-sY-i0m"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="357-It-4Tu" firstAttribute="top" secondItem="Krl-dG-0ri" secondAttribute="bottom" constant="30" id="47q-VE-08S"/>
+                            <constraint firstItem="V6v-2L-aab" firstAttribute="leading" secondItem="2cG-sY-i0m" secondAttribute="leading" id="61R-U5-RFl"/>
+                            <constraint firstItem="V6v-2L-aab" firstAttribute="trailing" secondItem="2cG-sY-i0m" secondAttribute="trailing" id="ApD-7g-cDq"/>
+                            <constraint firstItem="Krl-dG-0ri" firstAttribute="centerX" secondItem="b1L-vK-V3e" secondAttribute="centerX" id="Apc-nr-V0d"/>
+                            <constraint firstItem="V6v-2L-aab" firstAttribute="top" secondItem="2cG-sY-i0m" secondAttribute="top" constant="30" id="Sdt-Ha-Akt"/>
+                            <constraint firstItem="Krl-dG-0ri" firstAttribute="top" secondItem="1gB-W0-ToS" secondAttribute="bottom" constant="20" id="T6j-2j-IOC"/>
+                            <constraint firstItem="1gB-W0-ToS" firstAttribute="top" secondItem="V6v-2L-aab" secondAttribute="bottom" constant="30" id="Y0M-yZ-CYb"/>
+                            <constraint firstItem="357-It-4Tu" firstAttribute="leading" secondItem="2cG-sY-i0m" secondAttribute="leading" constant="30" id="Zsx-kr-eIf"/>
+                            <constraint firstItem="2cG-sY-i0m" firstAttribute="trailing" secondItem="357-It-4Tu" secondAttribute="trailing" constant="30" id="Zx2-ME-i2W"/>
+                            <constraint firstItem="1gB-W0-ToS" firstAttribute="centerX" secondItem="b1L-vK-V3e" secondAttribute="centerX" id="hY1-bN-AZM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="adressTF" destination="3Nf-sN-LV5" id="87h-jM-3vW"/>
+                        <outlet property="cellPhoneTF" destination="ges-Qb-bDr" id="sND-8B-JPF"/>
+                        <outlet property="contactImage" destination="1gB-W0-ToS" id="Bi8-RD-DCO"/>
+                        <outlet property="doneButton" destination="iUD-HW-wFN" id="dQa-Q9-Pzf"/>
+                        <outlet property="emailTF" destination="9Op-zl-Vqg" id="X1w-ZA-Lsx"/>
+                        <outlet property="firstNameTF" destination="j7l-ju-xbm" id="bDz-1e-EWe"/>
+                        <outlet property="homePhoneTF" destination="O2E-Jg-n5O" id="1PC-8L-pwV"/>
+                        <outlet property="lastNameTF" destination="pbv-hf-klo" id="XbD-mt-jd4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gus-cM-TCl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1628.985507246377" y="67.633928571428569"/>
         </scene>
         <!--Detail Info View Controller-->
         <scene sceneID="TtY-6T-Lha">
@@ -96,32 +204,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWb-sN-Sdt">
-                                <rect key="frame" x="32" y="436.5" width="350" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JWb-sN-Sdt">
+                                <rect key="frame" x="32" y="306" width="350" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-3V-sL5">
-                                <rect key="frame" x="107" y="170" width="200" height="200"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HvU-3V-sL5" customClass="RoundedImageView" customModule="ContactsList" customModuleProvider="target">
+                                <rect key="frame" x="107" y="74" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="Lon-oi-ARd"/>
                                     <constraint firstAttribute="height" constant="200" id="xcL-Mc-pku"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <integer key="value" value="100"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rbg-5L-yMs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JWb-sN-Sdt" firstAttribute="leading" secondItem="rbg-5L-yMs" secondAttribute="leading" constant="32" id="7BT-zm-1o9"/>
-                            <constraint firstItem="JWb-sN-Sdt" firstAttribute="centerY" secondItem="wrV-1r-7dn" secondAttribute="centerY" id="C2U-YF-xlC"/>
+                            <constraint firstItem="JWb-sN-Sdt" firstAttribute="top" secondItem="HvU-3V-sL5" secondAttribute="bottom" constant="32" id="FG1-Xb-0q4"/>
                             <constraint firstItem="HvU-3V-sL5" firstAttribute="centerX" secondItem="wrV-1r-7dn" secondAttribute="centerX" id="aNp-WZ-NYV"/>
                             <constraint firstItem="rbg-5L-yMs" firstAttribute="trailing" secondItem="JWb-sN-Sdt" secondAttribute="trailing" constant="32" id="jR5-jR-zLy"/>
+                            <constraint firstItem="rbg-5L-yMs" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="JWb-sN-Sdt" secondAttribute="bottom" constant="32" id="l7s-wU-f4b"/>
                             <constraint firstItem="HvU-3V-sL5" firstAttribute="top" secondItem="rbg-5L-yMs" secondAttribute="top" constant="30" id="n9T-rE-FW1"/>
                         </constraints>
                     </view>
@@ -133,9 +237,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jXT-b2-AaE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1770" y="69"/>
+            <point key="canvasLocation" x="2571" y="69"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="1gB-W0-ToS">
+            <size key="intrinsicContentSize" width="128" height="128"/>
+        </designable>
+        <designable name="pd7-AS-JNK">
+            <size key="intrinsicContentSize" width="128" height="128"/>
+        </designable>
+    </designables>
     <resources>
         <image name="photo" width="128" height="128"/>
         <systemColor name="systemBackgroundColor">

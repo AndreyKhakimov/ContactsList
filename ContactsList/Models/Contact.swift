@@ -7,10 +7,6 @@
 
 import RealmSwift
 
-struct ContactsResponse: Codable {
-    let results: [Contact]
-}
-
 class Contact: Object, Codable {
     @Persisted var name: Name?
     @Persisted var location: Location?
@@ -20,7 +16,7 @@ class Contact: Object, Codable {
     @Persisted var homePhone: String = ""
     
     var info: String {
-        """
+    """
     Name: \(name?.fullname ?? "")
     Location: \(location?.city ?? ""), \(location?.street?.fullStreet ?? "")
     Email: \(email)
@@ -34,6 +30,7 @@ class Contact: Object, Codable {
         case cellPhone = "cell"
         case homePhone = "phone"
     }
+    
 }
 
 class Name: Object, Codable {
