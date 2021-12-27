@@ -15,7 +15,7 @@ class NewContactViewController: UIViewController {
     @IBOutlet weak var cellPhoneTF: UITextField!
     @IBOutlet weak var homePhoneTF: UITextField!
     @IBOutlet weak var emailTF: UITextField!
-    @IBOutlet weak var adressTF: UITextField!
+    @IBOutlet weak var addressTF: UITextField!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     private let storageManager = StorageManager.shared
@@ -49,15 +49,15 @@ class NewContactViewController: UIViewController {
         guard let cellPhone = cellPhoneTF.text else { return }
         guard let homePhone = homePhoneTF.text else { return }
         guard let email = emailTF.text else { return }
-        guard let adress = adressTF.text else { return }
-        let contact = Contact()
-        let name = Name()
-        name.first = firstName
-        name.last = lastName
-        contact.name = name
-        contact.cellPhone = cellPhone
-        contact.homePhone = homePhone
-        contact.email = email
+        guard let address = addressTF.text else { return }
+        let contact = ContactRealm(
+            firstName: firstName,
+            lastName: lastName,
+            location: address,
+            email: email,
+            picture: nil,
+            cellPhone: cellPhone,
+            homePhone: homePhone)
         storageManager.save(contact)
         dismiss(animated: true)
     }

@@ -22,6 +22,8 @@ class ContactTableViewCell: UITableViewCell {
     func configure(image: URL?, name: String) {
         if let image = image {
             contactImage.kf.setImage(with: image)
+        } else {
+            contactImage.image = UIImage(named: "photo.artframe")
         }
         contactLabel.text = name
     }

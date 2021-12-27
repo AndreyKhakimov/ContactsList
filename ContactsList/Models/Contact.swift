@@ -7,13 +7,13 @@
 
 import RealmSwift
 
-class Contact: Object, Codable {
-    @Persisted var name: Name?
-    @Persisted var location: Location?
-    @Persisted var email: String = ""
-    @Persisted var picture: Picture?
-    @Persisted var cellPhone: String = ""
-    @Persisted var homePhone: String = ""
+struct Contact: Codable {
+    var name: Name?
+    var location: Location?
+    var email: String = ""
+    var picture: Picture?
+    var cellPhone: String = ""
+    var homePhone: String = ""
     
     var info: String {
     """
@@ -31,29 +31,29 @@ class Contact: Object, Codable {
         case homePhone = "phone"
     }
     
-}
-
-class Name: Object, Codable {
-    @Persisted var first: String = ""
-    @Persisted var last: String = ""
-    var fullname: String {
-        first + " " + last
+    struct Name: Codable {
+        var first: String = ""
+        var last: String = ""
+        var fullname: String {
+            first + " " + last
+        }
     }
-}
 
-class Location: Object, Codable {
-    @Persisted var street: Street?
-    @Persisted var city: String = ""
-}
-
-class Street: Object, Codable {
-    @Persisted var number: Int = 0
-    @Persisted var name: String = ""
-    var fullStreet: String {
-        name + " \(number)"
+    struct Location: Codable {
+        var street: Street?
+        var city: String = ""
     }
-}
 
-class Picture: Object, Codable {
-    @Persisted var large: String = ""
+    class Street: Codable {
+        var number: Int = 0
+        var name: String = ""
+        var fullStreet: String {
+            name + " \(number)"
+        }
+    }
+
+    struct Picture: Codable {
+        var large: String = ""
+    }
+    
 }

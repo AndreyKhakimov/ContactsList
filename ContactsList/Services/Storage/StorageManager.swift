@@ -14,24 +14,20 @@ class StorageManager {
     
     private init() {}
     
-    func save(_ object: Contact) {
+    func save(_ object: ContactRealm) {
         do {
             try realm.write {
                 realm.add(object)
+                print("Realm is located at:", realm.configuration.fileURL!)
             }
         } catch {
             print("Saving data Error")
         }
     }
     
-    func save(_ objects: [Contact]) {
+    func save(_ objects: [ContactRealm]) {
         do {
             try realm.write {
-                realm.delete(realm.objects(Contact.self))
-                realm.delete(realm.objects(Name.self))
-                realm.delete(realm.objects(Location.self))
-                realm.delete(realm.objects(Street.self))
-                realm.delete(realm.objects(Picture.self))
                 realm.add(objects)
                 print("Realm is located at:", realm.configuration.fileURL!)
             }
