@@ -13,7 +13,7 @@ class DetailInfoViewController: UIViewController {
     @IBOutlet weak var detailInfoLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     
-    var contact: Contact!
+    var contact: SuggestedContact!
     
     override func viewDidLoad() {
         super.viewDidLoad()

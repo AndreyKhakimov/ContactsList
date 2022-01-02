@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct ContactsResponse: Codable {
-    let results: [Contact]
+struct SuggestedContactsResponse: Decodable {
+    let results: [SuggestedContact]
 }

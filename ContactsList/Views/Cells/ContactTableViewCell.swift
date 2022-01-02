@@ -16,14 +16,14 @@ class ContactTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         contactImage.kf.cancelDownloadTask()
-        contactImage.image = UIImage(named: "photo.artframe")
+        contactImage.image = UIImage(systemName: "photo.artframe")
     }
     
     func configure(image: URL?, name: String) {
         if let image = image {
             contactImage.kf.setImage(with: image)
         } else {
-            contactImage.image = UIImage(named: "photo.artframe")
+            contactImage.image = UIImage(systemName: "photo.artframe")
         }
         contactLabel.text = name
     }

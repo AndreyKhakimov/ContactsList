@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		422688892770C93300B41B74 /* ContactsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422688882770C93300B41B74 /* ContactsResponse.swift */; };
+		422688892770C93300B41B74 /* SuggestedContactsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422688882770C93300B41B74 /* SuggestedContactsResponse.swift */; };
 		422688902770D41900B41B74 /* EndpointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226888F2770D41900B41B74 /* EndpointProtocol.swift */; };
 		422688922770D50300B41B74 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422688912770D50300B41B74 /* NetworkError.swift */; };
 		422688952770D60100B41B74 /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422688942770D60100B41B74 /* RoundedImageView.swift */; };
@@ -21,7 +21,7 @@
 		4228B814275E10F500D10B33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4228B812275E10F500D10B33 /* LaunchScreen.storyboard */; };
 		4228B81C275E127900D10B33 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B81B275E127900D10B33 /* NetworkManager.swift */; };
 		4228B81E275E129E00D10B33 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B81D275E129E00D10B33 /* ContactsTableViewController.swift */; };
-		4228B820275E12D500D10B33 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B81F275E12D500D10B33 /* Contact.swift */; };
+		4228B820275E12D500D10B33 /* SuggestedContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B81F275E12D500D10B33 /* SuggestedContact.swift */; };
 		4228B822275E3DC200D10B33 /* DetailInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B821275E3DC200D10B33 /* DetailInfoViewController.swift */; };
 		4228B824275E9CC700D10B33 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B823275E9CC700D10B33 /* ContactTableViewCell.swift */; };
 		4228B82E2761128B00D10B33 /* ContactsNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4228B82D2761128B00D10B33 /* ContactsNetworkManager.swift */; };
@@ -32,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		06A4768B2C3A066D0EB6037D /* Pods-ContactsList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsList.release.xcconfig"; path = "Target Support Files/Pods-ContactsList/Pods-ContactsList.release.xcconfig"; sourceTree = "<group>"; };
-		422688882770C93300B41B74 /* ContactsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsResponse.swift; sourceTree = "<group>"; };
+		422688882770C93300B41B74 /* SuggestedContactsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedContactsResponse.swift; sourceTree = "<group>"; };
 		4226888F2770D41900B41B74 /* EndpointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointProtocol.swift; sourceTree = "<group>"; };
 		422688912770D50300B41B74 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		422688942770D60100B41B74 /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 		4228B815275E10F500D10B33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4228B81B275E127900D10B33 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		4228B81D275E129E00D10B33 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
-		4228B81F275E12D500D10B33 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		4228B81F275E12D500D10B33 /* SuggestedContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedContact.swift; sourceTree = "<group>"; };
 		4228B821275E3DC200D10B33 /* DetailInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoViewController.swift; sourceTree = "<group>"; };
 		4228B823275E9CC700D10B33 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		4228B82D2761128B00D10B33 /* ContactsNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsNetworkManager.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 		4226888E2770CA4D00B41B74 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				422688882770C93300B41B74 /* ContactsResponse.swift */,
+				422688882770C93300B41B74 /* SuggestedContactsResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -176,7 +176,7 @@
 		4228B828275F365300D10B33 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4228B81F275E12D500D10B33 /* Contact.swift */,
+				4228B81F275E12D500D10B33 /* SuggestedContact.swift */,
 				4226889A27790A0400B41B74 /* ContactRealm.swift */,
 			);
 			path = Models;
@@ -363,8 +363,8 @@
 				422688902770D41900B41B74 /* EndpointProtocol.swift in Sources */,
 				42F403732768FF40001FC613 /* UIViewController+Alert.swift in Sources */,
 				4228B822275E3DC200D10B33 /* DetailInfoViewController.swift in Sources */,
-				422688892770C93300B41B74 /* ContactsResponse.swift in Sources */,
-				4228B820275E12D500D10B33 /* Contact.swift in Sources */,
+				422688892770C93300B41B74 /* SuggestedContactsResponse.swift in Sources */,
+				4228B820275E12D500D10B33 /* SuggestedContact.swift in Sources */,
 				42268897277882DC00B41B74 /* AddingContactsTableViewController.swift in Sources */,
 				4228B81C275E127900D10B33 /* NetworkManager.swift in Sources */,
 				422688952770D60100B41B74 /* RoundedImageView.swift in Sources */,

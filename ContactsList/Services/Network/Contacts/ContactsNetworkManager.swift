@@ -32,10 +32,10 @@ class ContactsNetworkManager {
     
     private let networkManager = NetworkManager.shared
     
-    func getContacts(count: Int, completion: @escaping (Result<[Contact], NetworkError>) -> Void) {
+    func getSuggestedContacts(count: Int, completion: @escaping (Result<[SuggestedContact], NetworkError>) -> Void) {
         networkManager.sendRequest(
             endpoint: Endpoints.getContacts(count),
-            completion: { (result: Result<ContactsResponse, NetworkError>) in
+            completion: { (result: Result<SuggestedContactsResponse, NetworkError>) in
                 switch result {
                 case .success(let contacts):
                     completion(.success(contacts.results))

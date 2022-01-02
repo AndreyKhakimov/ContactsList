@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 import RealmSwift
 
 class ContactsTableViewController: UITableViewController {
@@ -14,8 +13,7 @@ class ContactsTableViewController: UITableViewController {
     private let contactsNetworkManager = ContactsNetworkManager()
     private let storageManager = StorageManager.shared
 
-    var contacts: [Contact?]
-    private var token: NotificationToken?
+    var contacts = [SuggestedContact]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +32,7 @@ class ContactsTableViewController: UITableViewController {
 //            }
         fetchData(with: 100)
         setupRefreshControl()
+        let a = Optional<String>(nil)
 
     }
 
@@ -44,8 +43,8 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customContact", for: indexPath) as! ContactTableViewCell
         let contact = contacts[indexPath.row]
-        let imageURL = URL(string: contact?.picture?.large ?? "")!
-        cell.configure(image: imageURL, name: contact?.name?.fullname ?? "")
+        let imageURL = URL(string: contact.picture?.large ?? "")
+        cell.configure(image: imageURL, name: contact.name?.fullname ?? "")
         return cell
     }
 
@@ -57,7 +56,7 @@ class ContactsTableViewController: UITableViewController {
     }
 
     private func fetchData(with personNumber: Int) {
-        contactsNetworkManager.getContacts(
+        contactsNetworkManager.getSuggestedContacts(
             count: personNumber,
             completion: { [weak self] result in
                 DispatchQueue.main.async {
@@ -65,6 +64,8 @@ class ContactsTableViewController: UITableViewController {
 
                     switch result {
                     case .success(let contacts):
+                        self.contacts = contacts
+                        self.tableView.reloadData()
                         if self.refreshControl != nil {
                             self.refreshControl?.endRefreshing()
                         }
