@@ -82,6 +82,9 @@ struct SuggestedContact: Decodable {
     struct Location: Decodable {
         var street: Street?
         var city: String = ""
+        var fullAddress: String {
+          "\(city), \(street?.fullStreet ?? "")"
+        }
     }
 
     struct Street: Decodable {

@@ -36,5 +36,27 @@ class StorageManager {
         }
     }
     
+    func delete(_ objects: [ContactRealm]) {
+        do {
+            try realm.write {
+                realm.delete(objects)
+                print("Realm is located at:", realm.configuration.fileURL!)
+            }
+        } catch {
+            print("Saving data Error")
+        }
+    }
+    
+    func delete(_ object: ContactRealm) {
+        do {
+            try realm.write {
+                realm.delete(object)
+                print("Realm is located at:", realm.configuration.fileURL!)
+            }
+        } catch {
+            print("Saving data Error")
+        }
+    }
+    
     private func retrieveObject() {}
 }

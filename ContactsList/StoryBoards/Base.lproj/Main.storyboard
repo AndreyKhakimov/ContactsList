@@ -30,7 +30,7 @@
         <!--Contacts-->
         <scene sceneID="F3Z-u3-gKy">
             <objects>
-                <tableViewController id="GWc-v6-7vm" customClass="AddingContactsTableViewController" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="GWc-v6-7vm" customClass="ContactsTableViewController" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="ZID-3A-0Gn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -249,13 +249,13 @@
         <!--Contacts-->
         <scene sceneID="nUf-k4-aJP">
             <objects>
-                <tableViewController id="APh-gt-nFg" customClass="ContactsTableViewController" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="APh-gt-nFg" customClass="SuggestedContactsViewController" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Uue-Cu-mHf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customContact" rowHeight="56" id="wIB-BH-16x" customClass="ContactTableViewCell" customModule="ContactsList" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="suggestedContact" rowHeight="56" id="wIB-BH-16x" customClass="SuggestedContactCell" customModule="ContactsList" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wIB-BH-16x" id="PJc-de-eK5">
@@ -270,24 +270,39 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ImB-xu-pIa">
-                                            <rect key="frame" x="64" y="0.0" width="334" height="56"/>
+                                            <rect key="frame" x="64" y="0.0" width="308" height="56"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c48-Xp-RCg">
+                                            <rect key="frame" x="372" y="17" width="42" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="42" id="LKs-Ry-7Wq"/>
+                                            </constraints>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="" image="plus" catalog="system"/>
+                                            <state key="selected" image="checkmark.rectangle" catalog="system"/>
+                                            <connections>
+                                                <action selector="suggestedContactButtonPressed:" destination="wIB-BH-16x" eventType="touchUpInside" id="UwU-yE-hF1"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="hRT-xH-WME" firstAttribute="leading" secondItem="PJc-de-eK5" secondAttribute="leadingMargin" id="14y-r5-oNU"/>
-                                        <constraint firstAttribute="trailing" secondItem="ImB-xu-pIa" secondAttribute="trailing" constant="16" id="9hE-v5-Lfj"/>
+                                        <constraint firstAttribute="trailing" secondItem="c48-Xp-RCg" secondAttribute="trailing" id="DLk-QJ-hJW"/>
+                                        <constraint firstItem="c48-Xp-RCg" firstAttribute="centerY" secondItem="PJc-de-eK5" secondAttribute="centerY" id="PII-xN-iHQ"/>
                                         <constraint firstItem="ImB-xu-pIa" firstAttribute="leading" secondItem="hRT-xH-WME" secondAttribute="trailing" constant="8" id="QuS-4I-fMr"/>
+                                        <constraint firstItem="c48-Xp-RCg" firstAttribute="leading" secondItem="ImB-xu-pIa" secondAttribute="trailing" id="Wln-Fr-fSz"/>
                                         <constraint firstAttribute="bottom" secondItem="ImB-xu-pIa" secondAttribute="bottom" id="tqa-BG-aNQ"/>
                                         <constraint firstItem="ImB-xu-pIa" firstAttribute="top" secondItem="PJc-de-eK5" secondAttribute="top" id="ug1-20-ScW"/>
                                         <constraint firstItem="hRT-xH-WME" firstAttribute="top" secondItem="PJc-de-eK5" secondAttribute="top" constant="10" id="ynH-QS-1Go"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="contactImage" destination="hRT-xH-WME" id="V0v-yE-MFI"/>
-                                    <outlet property="contactLabel" destination="ImB-xu-pIa" id="RWz-sd-YaL"/>
+                                    <outlet property="suggestedContactButton" destination="c48-Xp-RCg" id="a6g-7p-fm5"/>
+                                    <outlet property="suggestedContactImage" destination="hRT-xH-WME" id="lVl-Xc-Xs4"/>
+                                    <outlet property="suggestedContactLabel" destination="ImB-xu-pIa" id="uh4-dw-b1c"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -300,12 +315,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6SK-b6-n7K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2354" y="69"/>
+            <point key="canvasLocation" x="2353.6231884057975" y="68.973214285714278"/>
         </scene>
     </scenes>
     <resources>
+        <image name="checkmark.rectangle" catalog="system" width="128" height="93"/>
         <image name="p" width="128" height="128"/>
         <image name="photo.artframe" catalog="system" width="128" height="93"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

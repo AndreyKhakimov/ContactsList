@@ -1,8 +1,8 @@
 //
-//  ContactsTableViewController.swift
+//  AddingContactsTableViewController.swift
 //  ContactsList
 //
-//  Created by Andrey Khakimov on 06.12.2021.
+//  Created by Andrey Khakimov on 26.12.2021.
 //
 
 import UIKit
@@ -10,82 +10,48 @@ import RealmSwift
 
 class ContactsTableViewController: UITableViewController {
 
-    private let contactsNetworkManager = ContactsNetworkManager()
     private let storageManager = StorageManager.shared
-
-    var contacts = [SuggestedContact]()
-
+    
+    var contacts: Results<ContactRealm>!
+    private var token: NotificationToken?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//            switch results {
-//            case .initial:
-//                self?.tableView.reloadData()
-//            case .error(let error):
-//                self?.showAlert(title: "Error", message: error.localizedDescription)
-//            case .update(_, let deletions, let insertions, let modifications):
-//                self?.tableView.beginUpdates()
-//                self?.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0)}, with: .automatic)
-//                self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0)}, with: .automatic)
-//                self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0)}, with: .automatic)
-//                self?.tableView.endUpdates()
-//            }
-        fetchData(with: 100)
-        setupRefreshControl()
-        let a = Optional<String>(nil)
-
+        contacts = try! Realm().objects(ContactRealm.self).sorted(byKeyPath: "lastName")
+        token = contacts.observe(on: .main) { [weak self] results in
+            self?.tableView.reloadData()
+        }
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         contacts.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customContact", for: indexPath) as! ContactTableViewCell
         let contact = contacts[indexPath.row]
-        let imageURL = URL(string: contact.picture?.large ?? "")
-        cell.configure(image: imageURL, name: contact.name?.fullname ?? "")
+        var imageURL: URL?
+        if let pictureURL = contact.picture {
+            imageURL = URL(string: pictureURL)
+        }
+        cell.configure(image: imageURL, name: contact.fullName)
         return cell
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        guard let detailVC = segue.destination as? DetailInfoViewController else { return }
-        let contact = contacts[indexPath.row]
-        detailVC.contact = contact
-    }
-
-    private func fetchData(with personNumber: Int) {
-        contactsNetworkManager.getSuggestedContacts(
-            count: personNumber,
-            completion: { [weak self] result in
-                DispatchQueue.main.async {
-                    guard let self = self else { return }
-
-                    switch result {
-                    case .success(let contacts):
-                        self.contacts = contacts
-                        self.tableView.reloadData()
-                        if self.refreshControl != nil {
-                            self.refreshControl?.endRefreshing()
-                        }
-
-                    case .failure(let error):
-                        self.showAlert(title: error.title, message: error.description)
-                    }
-                }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alert = UIAlertController(title: "Are you sure?", message: "This action can not be undone.", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+                guard let self = self else { return }
+                
+                let contactToRemove = self.contacts[indexPath.row]
+                self.storageManager.delete(contactToRemove)
             }
-        )
-    }
-
-    @objc private func refreshAction() {
-        fetchData(with: 100)
-    }
-
-    private func setupRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl?.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
+            alert.addAction(cancel)
+            alert.addAction(delete)
+            present(alert, animated: true, completion: nil)
+        }
     }
 
 }

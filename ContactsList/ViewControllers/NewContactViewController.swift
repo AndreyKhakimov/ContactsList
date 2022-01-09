@@ -59,7 +59,6 @@ class NewContactViewController: UIViewController {
             cellPhone: cellPhone,
             homePhone: homePhone)
         storageManager.save(contact)
-        dismiss(animated: true)
     }
     
 }

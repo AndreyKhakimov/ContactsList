@@ -9,7 +9,6 @@ import UIKit
 
 class RoundedImageView: UIImageView {
     
-    @IBInspectable
     var roundsCorners: Bool = true {
         didSet {
             layer.cornerRadius = roundsCorners ? bounds.size.width / 2 : 0
