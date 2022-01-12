@@ -14,10 +14,30 @@ class StorageManager {
     
     private init() {}
     
+    func editContact(
+        contact: ContactRealm,
+        firstName: String,
+        lastName: String,
+        location: String,
+        email: String,
+        cellPhone: String,
+        homePhone: String)
+    {
+        let realm = try! Realm()
+        try? realm.write {
+            contact.firstName = firstName
+            contact.lastName = lastName
+            contact.location = location
+            contact.email = email
+            contact.cellPhone = cellPhone
+            contact.homePhone = homePhone
+        }
+    }
+    
     func save(_ object: ContactRealm) {
         do {
             try realm.write {
-                realm.add(object)
+                realm.add(object, update: .modified)
                 print("Realm is located at:", realm.configuration.fileURL!)
             }
         } catch {
@@ -57,6 +77,9 @@ class StorageManager {
             print("Saving data Error")
         }
     }
+    // нужно ли обработать опционал?
+    func retrieveObject(id: String) -> ContactRealm? {
+        realm.object(ofType: ContactRealm.self, forPrimaryKey: id)
+    }
     
-    private func retrieveObject() {}
 }

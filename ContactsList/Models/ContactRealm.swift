@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 
 class ContactRealm: Object {
+    @Persisted var contactID: String = ""
     @Persisted var firstName: String = ""
     @Persisted var lastName: String = ""
     @Persisted var location: String = ""
@@ -18,6 +19,7 @@ class ContactRealm: Object {
     @Persisted var homePhone: String = ""
 
     convenience init(
+        contactID: String = UUID().uuidString,
         firstName: String,
         lastName: String,
         location: String,
@@ -27,6 +29,7 @@ class ContactRealm: Object {
         homePhone: String
     ) {
         self.init()
+        self.contactID = contactID
         self.firstName = firstName
         self.lastName = lastName
         self.location = location
@@ -48,6 +51,10 @@ class ContactRealm: Object {
     Email: \(email)
     Adress: \(location)
     """
+    }
+    
+    override class func primaryKey() -> String? {
+        return "contactID"
     }
     
 }

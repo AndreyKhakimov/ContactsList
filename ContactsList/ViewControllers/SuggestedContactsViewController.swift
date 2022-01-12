@@ -47,6 +47,7 @@ class SuggestedContactsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "suggestedContact", for: indexPath) as! SuggestedContactCell
         let contact = contacts[indexPath.row]
         let realmContact = ContactRealm(
+            contactID: UUID().uuidString,
             firstName: contact.name?.first ?? "",
             lastName: contact.name?.last ?? "",
             location: contact.location?.fullAddress ?? "",
@@ -68,13 +69,6 @@ class SuggestedContactsViewController: UITableViewController {
             isAdded: addedContactsIndexPaths.contains(indexPath)
         )
         return cell
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        guard let detailVC = segue.destination as? DetailInfoViewController else { return }
-        let contact = contacts[indexPath.row]
-        detailVC.contact = contact
     }
     
     private func fetchData(with personNumber: Int) {
