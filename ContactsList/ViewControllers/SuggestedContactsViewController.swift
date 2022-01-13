@@ -71,6 +71,23 @@ class SuggestedContactsViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let contactVC = storyboard.instantiateViewController(withIdentifier: "ContactViewController") as! ContactViewController
+        let contact = contacts[indexPath.row]
+        let realmContact = ContactRealm(
+            contactID: UUID().uuidString,
+            firstName: contact.name?.first ?? "",
+            lastName: contact.name?.last ?? "",
+            location: contact.location?.fullAddress ?? "",
+            email: contact.email, picture: contact.picture?.large,
+            cellPhone: contact.cellPhone,
+            homePhone: contact.homePhone
+        )
+        contactVC.contact = realmContact
+        present(contactVC, animated: true, completion: nil)
+    }
+    
     private func fetchData(with personNumber: Int) {
         contactsNetworkManager.getSuggestedContacts(
             count: personNumber,

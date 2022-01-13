@@ -20,7 +20,7 @@ class ContactViewController: UIViewController {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     var contactID: String?
-    private var contact: ContactRealm?
+    var contact: ContactRealm?
     
     private let storageManager = StorageManager.shared
     
@@ -35,12 +35,29 @@ class ContactViewController: UIViewController {
             } else {
                 contactImage.image = UIImage(systemName: "photo.artframe")
             }
+            
             firstNameTF.text = contact.firstName
             lastNameTF.text = contact.lastName
             cellPhoneTF.text = contact.cellPhone
             homePhoneTF.text = contact.homePhone
             emailTF.text = contact.email
             addressTF.text = contact.location
+            
+        } else if let contact = contact {
+            
+            if let image = URL(string: contact.picture ?? "") {
+                contactImage.kf.setImage(with: image)
+            } else {
+                contactImage.image = UIImage(systemName: "photo.artframe")
+            }
+            
+            firstNameTF.text = contact.firstName
+            lastNameTF.text = contact.lastName
+            cellPhoneTF.text = contact.cellPhone
+            homePhoneTF.text = contact.homePhone
+            emailTF.text = contact.email
+            addressTF.text = contact.location
+            
         } else {
             contactImage.image = UIImage(systemName: "photo.artframe")
         }
@@ -58,7 +75,7 @@ class ContactViewController: UIViewController {
         guard let homePhone = homePhoneTF.text else { return }
         guard let email = emailTF.text else { return }
         guard let location = addressTF.text else { return }
-//        if contact == nil {
+        //        if contact == nil {
         createAndSave(
             firstName: firstName,
             lastName: lastName,
@@ -67,17 +84,25 @@ class ContactViewController: UIViewController {
             cellPhone: cellPhone,
             homePhone: homePhone
         )
-//        } else {
-//            editAndSave(
-//                firstName: firstName,
-//                lastName: lastName,
-//                location: location,
-//                email: email,
-//                cellPhone: cellPhone,
-//                homePhone: homePhone
-//            )
-//        }
+        //        } else {
+        //            editAndSave(
+        //                firstName: firstName,
+        //                lastName: lastName,
+        //                location: location,
+        //                email: email,
+        //                cellPhone: cellPhone,
+        //                homePhone: homePhone
+        //            )
+        //        }
         dismiss(animated: true)
+    }
+    
+    @IBAction func changePhotoButtonPressed(_ sender: Any) {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
@@ -109,27 +134,42 @@ class ContactViewController: UIViewController {
         storageManager.save(contact)
     }
     
-//    private func editAndSave(
-//        firstName: String,
-//        lastName: String,
-//        location: String,
-//        email: String,
-//        cellPhone: String,
-//        homePhone: String)
-//    {
-//        guard let contact = contact else {
-//            return
-//        }
-//
-//        storageManager.editContact(
-//            contact: contact,
-//            firstName: firstName,
-//            lastName: lastName,
-//            location: location,
-//            email: email,
-//            cellPhone: cellPhone,
-//            homePhone: homePhone
-//        )
-//    }
+    //    private func editAndSave(
+    //        firstName: String,
+    //        lastName: String,
+    //        location: String,
+    //        email: String,
+    //        cellPhone: String,
+    //        homePhone: String)
+    //    {
+    //        guard let contact = contact else {
+    //            return
+    //        }
+    //
+    //        storageManager.editContact(
+    //            contact: contact,
+    //            firstName: firstName,
+    //            lastName: lastName,
+    //            location: location,
+    //            email: email,
+    //            cellPhone: cellPhone,
+    //            homePhone: homePhone
+    //        )
+    //    }
     
+}
+
+extension ContactViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
+            contactImage.image = image
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
 }

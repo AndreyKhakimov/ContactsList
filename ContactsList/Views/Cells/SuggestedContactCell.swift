@@ -1,16 +1,12 @@
 //
 //  SuggestedContactCell.swift
 //  ContactsList
-///Users/andreykhakimov/Documents/Development/ContactsList/ContactsList
+//
 //  Created by Andrey Khakimov on 04.01.2022.
 //
 
 import UIKit
 import Kingfisher
-
-//protocol SuggestedContactCellDelegate: AnyObject {
-//    func suggestedContactButtonTapped(_ cell: SuggestedContactCell)
-//}
 
 class SuggestedContactCell: UITableViewCell {
     

@@ -55,21 +55,11 @@ class ContactsTableViewController: UITableViewController {
     }
         
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        performSegue(withIdentifier: "detailInfo", sender: nil)
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let contactVC = storyboard.instantiateViewController(withIdentifier: "ContactViewController") as! ContactViewController
         let contact = contacts[indexPath.row]
         contactVC.contactID = contact.contactID
         present(contactVC, animated: true, completion: nil)
-        
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-//        guard let detailVC = segue.destination as? ContactDetailsViewController else { return }
-//        let contact = contacts[indexPath.row]
-//        detailVC.contact = contact
-//    }
 
 }
