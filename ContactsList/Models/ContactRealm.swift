@@ -15,6 +15,7 @@ class ContactRealm: Object {
     @Persisted var location: String = ""
     @Persisted var email: String = ""
     @Persisted var picture: String? = ""
+    @Persisted var localPicture: String? = ""
     @Persisted var cellPhone: String = ""
     @Persisted var homePhone: String = ""
 
@@ -25,6 +26,7 @@ class ContactRealm: Object {
         location: String,
         email: String,
         picture: String?,
+        localPicture: String?,
         cellPhone: String,
         homePhone: String
     ) {
@@ -35,6 +37,7 @@ class ContactRealm: Object {
         self.location = location
         self.email = email
         self.picture = picture
+        self.localPicture = localPicture
         self.cellPhone = cellPhone
         self.homePhone = homePhone
     }

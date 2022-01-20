@@ -8,6 +8,7 @@
 import RealmSwift
 
 class StorageManager {
+    
     static let shared = StorageManager()
     
     let realm = try! Realm()
@@ -77,7 +78,7 @@ class StorageManager {
             print("Saving data Error")
         }
     }
-    // нужно ли обработать опционал?
+    
     func retrieveObject(id: String) -> ContactRealm? {
         realm.object(ofType: ContactRealm.self, forPrimaryKey: id)
     }

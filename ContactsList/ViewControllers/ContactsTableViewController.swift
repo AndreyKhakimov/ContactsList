@@ -11,6 +11,7 @@ import RealmSwift
 class ContactsTableViewController: UITableViewController {
 
     private let storageManager = StorageManager.shared
+    private let imageManager = ImageManager.shared
     
     var contacts: Results<ContactRealm>!
     private var token: NotificationToken?
@@ -30,11 +31,8 @@ class ContactsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customContact", for: indexPath) as! ContactTableViewCell
         let contact = contacts[indexPath.row]
-        var imageURL: URL?
-        if let pictureURL = contact.picture {
-            imageURL = URL(string: pictureURL)
-        }
-        cell.configure(image: imageURL, name: contact.fullName)
+        let image = imageManager.retrieveImage(with: contact.localPicture ?? "")
+        cell.configure(image: image, name: contact.fullName)
         return cell
     }
     

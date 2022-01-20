@@ -21,8 +21,11 @@ class ContactViewController: UIViewController {
     
     var contactID: String?
     var contact: ContactRealm?
+    var imagePath: String?
+    var addedContactsIndexPaths: IndexPath?
     
     private let storageManager = StorageManager.shared
+    private let imageManager = ImageManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +33,8 @@ class ContactViewController: UIViewController {
             contact = storageManager.retrieveObject(id: contactID)
             guard let contact = contact else { return }
             
-            if let image = URL(string: contact.picture ?? "") {
-                contactImage.kf.setImage(with: image)
+            if let image = imageManager.retrieveImage(with: contact.localPicture ?? "") {
+                contactImage.image = image
             } else {
                 contactImage.image = UIImage(systemName: "photo.artframe")
             }
@@ -63,100 +66,146 @@ class ContactViewController: UIViewController {
         }
         firstNameTF.addTarget(
             self,
-            action: #selector(firstNameTFDidChanged),
+            action: #selector(dataDidChange),
+            for: .editingChanged
+        )
+        lastNameTF.addTarget(
+            self,
+            action: #selector(dataDidChange),
+            for: .editingChanged
+        )
+        cellPhoneTF.addTarget(
+            self,
+            action: #selector(dataDidChange),
+            for: .editingChanged
+        )
+        homePhoneTF.addTarget(
+            self,
+            action: #selector(dataDidChange),
+            for: .editingChanged
+        )
+        emailTF.addTarget(
+            self,
+            action: #selector(dataDidChange),
+            for: .editingChanged
+        )
+        addressTF.addTarget(
+            self,
+            action: #selector(dataDidChange),
             for: .editingChanged
         )
     }
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+        guard let image = contactImage.image else { return }
         guard let firstName = firstNameTF.text else { return }
         guard let lastName = lastNameTF.text else { return }
         guard let cellPhone = cellPhoneTF.text else { return }
         guard let homePhone = homePhoneTF.text else { return }
         guard let email = emailTF.text else { return }
         guard let location = addressTF.text else { return }
-        //        if contact == nil {
+        
+        if contactID == nil {
+            contactID = UUID().uuidString
+        }
+        
+        guard let contactID = contactID else { return }
+        imageManager.saveImageOnDisk(
+            image: image,
+            pathComponent: contactID) { [weak self] imagePath in
+                guard let self = self  else { return }
+                self.imagePath = imagePath
+            }
+        
         createAndSave(
+            contactID: contactID,
             firstName: firstName,
             lastName: lastName,
             location: location,
             email: email,
             cellPhone: cellPhone,
-            homePhone: homePhone
+            homePhone: homePhone,
+            picture: nil,
+            localPicture: imagePath ?? ""
         )
-        //        } else {
-        //            editAndSave(
-        //                firstName: firstName,
-        //                lastName: lastName,
-        //                location: location,
-        //                email: email,
-        //                cellPhone: cellPhone,
-        //                homePhone: homePhone
-        //            )
-        //        }
+        
         dismiss(animated: true)
     }
     
     @IBAction func changePhotoButtonPressed(_ sender: Any) {
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
-        present(vc, animated: true)
+        let alert = UIAlertController(title: "Where do you want to set the photo from?", message: "You can use photo gallery or camera.", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let photoGallery = UIAlertAction(title: "Photo gallery", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            let vc = UIImagePickerController()
+            vc.sourceType = .photoLibrary
+            vc.delegate = self
+            vc.allowsEditing = true
+            self.present(vc, animated: true)
+        }
+        let camera = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            let vc = UIImagePickerController()
+            vc.sourceType = .camera
+            vc.delegate = self
+            vc.allowsEditing = true
+            self.present(vc, animated: true)
+        }
+                                   
+        alert.addAction(cancel)
+        alert.addAction(photoGallery)
+        alert.addAction(camera)
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
     
-    @objc private func firstNameTFDidChanged() {
-        guard let firstName = firstNameTF.text else { return }
-        doneButton.isEnabled = !firstName.isEmpty
+    @objc func dataDidChange() {
+        if let firstName = firstNameTF.text,
+//           let lastName = lastNameTF.text,
+//           let cellPhone = cellPhoneTF.text,
+//           let homePhone = homePhoneTF.text,
+//           let email = emailTF.text,
+//           let location = addressTF.text,
+           !firstName.isEmpty
+//           !lastName.isEmpty,
+//           !cellPhone.isEmpty,
+//           !homePhone.isEmpty,
+//           !email.isEmpty,
+//           !location.isEmpty
+        {
+            doneButton.isEnabled = true
+        } else {
+            doneButton.isEnabled = false
+        }
     }
     
     private func createAndSave(
+        contactID: String,
         firstName: String,
         lastName: String,
         location: String,
         email: String,
         cellPhone: String,
-        homePhone: String)
+        homePhone: String,
+        picture: String?,
+        localPicture: String?)
     {
         let contact = ContactRealm(
-            contactID: contact?.contactID ?? UUID().uuidString,
+            contactID: contactID,
             firstName: firstName,
             lastName: lastName,
             location: location,
             email: email,
-            picture: contact?.picture,
+            picture: picture,
+            localPicture: localPicture,
             cellPhone: cellPhone,
             homePhone: homePhone)
-        storageManager.save(contact)
+            storageManager.save(contact)
     }
-    
-    //    private func editAndSave(
-    //        firstName: String,
-    //        lastName: String,
-    //        location: String,
-    //        email: String,
-    //        cellPhone: String,
-    //        homePhone: String)
-    //    {
-    //        guard let contact = contact else {
-    //            return
-    //        }
-    //
-    //        storageManager.editContact(
-    //            contact: contact,
-    //            firstName: firstName,
-    //            lastName: lastName,
-    //            location: location,
-    //            email: email,
-    //            cellPhone: cellPhone,
-    //            homePhone: homePhone
-    //        )
-    //    }
-    
+
 }
 
 extension ContactViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -167,6 +216,7 @@ extension ContactViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
         
         picker.dismiss(animated: true, completion: nil)
+        dataDidChange()
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

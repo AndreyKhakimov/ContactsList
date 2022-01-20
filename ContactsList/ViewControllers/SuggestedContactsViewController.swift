@@ -7,15 +7,18 @@
 
 import UIKit
 import RealmSwift
+import Kingfisher
 
 class SuggestedContactsViewController: UITableViewController {
     
     private let contactsNetworkManager = ContactsNetworkManager()
     private let storageManager = StorageManager.shared
+    private let imageManager = ImageManager.shared
     
     var contacts = [SuggestedContact]()
     var addedContactsIndexPaths = Set<IndexPath>()
     var test: (() -> Void)? = {}
+    var imagePath: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,15 +49,6 @@ class SuggestedContactsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "suggestedContact", for: indexPath) as! SuggestedContactCell
         let contact = contacts[indexPath.row]
-        let realmContact = ContactRealm(
-            contactID: UUID().uuidString,
-            firstName: contact.name?.first ?? "",
-            lastName: contact.name?.last ?? "",
-            location: contact.location?.fullAddress ?? "",
-            email: contact.email, picture: contact.picture?.large,
-            cellPhone: contact.cellPhone,
-            homePhone: contact.homePhone
-        )
         let imageURL = URL(string: contact.picture?.large ?? "")
         
         cell.configure(
@@ -62,7 +56,28 @@ class SuggestedContactsViewController: UITableViewController {
             name: contact.name?.fullname ?? "",
             onPlusTapped: { [weak self] in
                 guard let self = self else { return }
-                
+                var image: UIImage?
+                self.imageManager.downloadImage(with: contact.picture?.large ?? "") { downloadedImage in
+                    image = downloadedImage
+                }
+                let contactID = UUID().uuidString
+                let realmContact = ContactRealm(
+                    contactID: contactID,
+                    firstName: contact.name?.first ?? "",
+                    lastName: contact.name?.last ?? "",
+                    location: contact.location?.fullAddress ?? "",
+                    email: contact.email,
+                    picture: nil,
+                    localPicture: contactID,
+                    cellPhone: contact.cellPhone,
+                    homePhone: contact.homePhone
+                )
+                if let image = image {
+                    self.imageManager.saveImageOnDisk(
+                        image: image,
+                        pathComponent: realmContact.localPicture ?? "")
+                }
+                realmContact.localPicture = contactID + ""
                 self.storageManager.save(realmContact)
                 self.addedContactsIndexPaths.insert(indexPath)
             },
@@ -80,12 +95,17 @@ class SuggestedContactsViewController: UITableViewController {
             firstName: contact.name?.first ?? "",
             lastName: contact.name?.last ?? "",
             location: contact.location?.fullAddress ?? "",
-            email: contact.email, picture: contact.picture?.large,
+            email: contact.email,
+            picture: contact.picture?.large,
+            localPicture: nil,
             cellPhone: contact.cellPhone,
             homePhone: contact.homePhone
         )
         contactVC.contact = realmContact
-        present(contactVC, animated: true, completion: nil)
+        present(contactVC, animated: true) {
+            contactVC.dataDidChange()
+        }
+
     }
     
     private func fetchData(with personNumber: Int) {
