@@ -1,14 +1,14 @@
 //
-//  NewContactViewController.swift
+//  ContactViewControllerStaticCells.swift
 //  ContactsList
 //
-//  Created by Andrey Khakimov on 26.12.2021.
+//  Created by Andrey Khakimov on 23.01.2022.
 //
 
 import UIKit
 import Kingfisher
 
-class ContactViewController: UIViewController {
+class ContactViewControllerStaticCells: UITableViewController {
     
     @IBOutlet weak var contactImage: RoundedImageView!
     @IBOutlet weak var firstNameTF: UITextField!
@@ -47,7 +47,7 @@ class ContactViewController: UIViewController {
             addressTF.text = contact.location
             
         } else if let contact = contact {
-            
+            contactID = contact.contactID
             if let image = URL(string: contact.picture ?? "") {
                 contactImage.kf.setImage(with: image)
             } else {
@@ -96,7 +96,7 @@ class ContactViewController: UIViewController {
         )
     }
     
-    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction func doneButtonPressed(_ sender: Any) {
         guard let image = contactImage.image else { return }
         guard let firstName = firstNameTF.text else { return }
         guard let lastName = lastNameTF.text else { return }
@@ -131,6 +131,7 @@ class ContactViewController: UIViewController {
         
         dismiss(animated: true)
     }
+
     
     @IBAction func changePhotoButtonPressed(_ sender: Any) {
         let alert = UIAlertController(title: "Where do you want to set the photo from?", message: "You can use photo gallery or camera.", preferredStyle: .alert)
@@ -176,7 +177,7 @@ class ContactViewController: UIViewController {
 //           !email.isEmpty,
 //           !location.isEmpty
         {
-            doneButton.isEnabled = true
+             doneButton.isEnabled = true
         } else {
             doneButton.isEnabled = false
         }
@@ -208,7 +209,7 @@ class ContactViewController: UIViewController {
 
 }
 
-extension ContactViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension ContactViewControllerStaticCells: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {

@@ -83,4 +83,9 @@ class StorageManager {
         realm.object(ofType: ContactRealm.self, forPrimaryKey: id)
     }
     
+    func getSavedContacts() -> [ContactRealm] {
+        let realmObjects = realm.objects(ContactRealm.self)
+        return Array(realmObjects)
+    }
+    
 }

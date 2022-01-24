@@ -14,18 +14,20 @@ class SuggestedContactsViewController: UITableViewController {
     private let contactsNetworkManager = ContactsNetworkManager()
     private let storageManager = StorageManager.shared
     private let imageManager = ImageManager.shared
+    private var token: NotificationToken?
     
     var contacts = [SuggestedContact]()
-    var addedContactsIndexPaths = Set<IndexPath>()
-    var test: (() -> Void)? = {}
-    var imagePath: String?
+    var addedContacts: Results<ContactRealm>!
+//    var addedContactsIndexPaths = Set<IndexPath>()
+//    var imagePath: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        test = { [unowned self] in
-            self.contacts.removeAll()
-            
-        }
+    addedContacts = try! Realm().objects(ContactRealm.self)
+    token = addedContacts?.observe(on: .main, { [weak self] _ in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        })
         //            switch results {
         //            case .initial:
         //                self?.tableView.reloadData()
@@ -50,48 +52,53 @@ class SuggestedContactsViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "suggestedContact", for: indexPath) as! SuggestedContactCell
         let contact = contacts[indexPath.row]
         let imageURL = URL(string: contact.picture?.large ?? "")
-        
+        let isAdded = storageManager.retrieveObject(id: contact.contactID) != nil
         cell.configure(
             image: imageURL,
             name: contact.name?.fullname ?? "",
             onPlusTapped: { [weak self] in
                 guard let self = self else { return }
                 var image: UIImage?
+                
                 self.imageManager.downloadImage(with: contact.picture?.large ?? "") { downloadedImage in
                     image = downloadedImage
                 }
-                let contactID = UUID().uuidString
+                var localImage: String?
+                if let image = image {
+                    self.imageManager.saveImageOnDisk(
+                        image: image,
+                        pathComponent: contact.contactID) { localImagePath in
+                            localImage = localImagePath
+                        }
+                }
+                
                 let realmContact = ContactRealm(
-                    contactID: contactID,
+                    contactID: contact.contactID,
                     firstName: contact.name?.first ?? "",
                     lastName: contact.name?.last ?? "",
                     location: contact.location?.fullAddress ?? "",
                     email: contact.email,
                     picture: nil,
-                    localPicture: contactID,
+                    localPicture: localImage,
                     cellPhone: contact.cellPhone,
                     homePhone: contact.homePhone
                 )
-                if let image = image {
-                    self.imageManager.saveImageOnDisk(
-                        image: image,
-                        pathComponent: realmContact.localPicture ?? "")
-                }
-                realmContact.localPicture = contactID + ""
+
                 self.storageManager.save(realmContact)
-                self.addedContactsIndexPaths.insert(indexPath)
             },
-            isAdded: addedContactsIndexPaths.contains(indexPath)
+            isAdded: isAdded
         )
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let contactVC = storyboard.instantiateViewController(withIdentifier: "ContactViewController") as! ContactViewController
+        let contactNavVC = storyboard.instantiateViewController(withIdentifier: "StaticCells") as!
+        UINavigationController
+        let contactVC = contactNavVC.viewControllers.first as! ContactViewControllerStaticCells
         let contact = contacts[indexPath.row]
         let realmContact = ContactRealm(
-            contactID: UUID().uuidString,
+            contactID: contact.contactID,
             firstName: contact.name?.first ?? "",
             lastName: contact.name?.last ?? "",
             location: contact.location?.fullAddress ?? "",
@@ -102,7 +109,8 @@ class SuggestedContactsViewController: UITableViewController {
             homePhone: contact.homePhone
         )
         contactVC.contact = realmContact
-        present(contactVC, animated: true) {
+        present(contactNavVC, animated: true) {
+            contactVC.doneButton.title = "Add"
             contactVC.dataDidChange()
         }
 

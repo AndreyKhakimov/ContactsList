@@ -54,10 +54,12 @@ class ContactsTableViewController: UITableViewController {
         
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let contactVC = storyboard.instantiateViewController(withIdentifier: "ContactViewController") as! ContactViewController
+        let contactNavVC = storyboard.instantiateViewController(withIdentifier: "StaticCells") as!
+        UINavigationController
+        let contactVC = contactNavVC.viewControllers.first as! ContactViewControllerStaticCells
         let contact = contacts[indexPath.row]
         contactVC.contactID = contact.contactID
-        present(contactVC, animated: true, completion: nil)
+        present(contactNavVC, animated: true, completion: nil)
     }
 
 }

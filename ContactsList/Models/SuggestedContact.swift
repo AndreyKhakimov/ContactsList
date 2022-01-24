@@ -8,23 +8,14 @@
 import RealmSwift
 
 struct SuggestedContact: Decodable {
+    var contactID: String
     var name: Name?
     var location: Location?
     var email: String = ""
     var picture: Picture?
     var cellPhone: String = ""
     var homePhone: String = ""
-    
-    var info: String {
-    """
-    Name: \(name?.fullname ?? "")
-    Location: \(location?.city ?? ""), \(location?.street?.fullStreet ?? "")
-    Email: \(email)
-    Home phone: \(homePhone)
-    Cell phone: \(cellPhone)
-    """
-    }
-    
+        
     enum CodingKeys: String, CodingKey {
         case name, location, email, picture
         case cellPhone = "cell"
@@ -63,6 +54,7 @@ struct SuggestedContact: Decodable {
         let cellPhone = try container.decode(String.self, forKey: .cellPhone)
         let homePhone = try container.decode(String.self, forKey: .homePhone)
         
+        self.contactID = UUID().uuidString
         self.name = Name(first: firstName, last: lastName)
         self.location = Location(street: Street(number: houseNumber, name: streetName), city: city)
         self.email = email

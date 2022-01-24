@@ -39,8 +39,8 @@ class ImageManager {
     func saveImageOnDisk(image: UIImage, pathComponent: String) {
         
         let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileName = pathComponent + ".jpg"
-        let url = documents.appendingPathComponent(fileName)
+        
+        let url = documents.appendingPathComponent(pathComponent)
         
         if let data = image.jpegData(compressionQuality: 0.95) {
             do {
