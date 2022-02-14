@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 class ContactsTableViewController: UITableViewController {
-
+    
     private let storageManager = StorageManager.shared
     private let imageManager = ImageManager.shared
     
@@ -44,6 +44,7 @@ class ContactsTableViewController: UITableViewController {
                 guard let self = self else { return }
                 
                 let contactToRemove = self.contacts[indexPath.row]
+                self.imageManager.deleteImageFromDisk(pathComponent: contactToRemove.localPicture ?? "")
                 self.storageManager.delete(contactToRemove)
             }
             alert.addAction(cancel)
@@ -51,7 +52,7 @@ class ContactsTableViewController: UITableViewController {
             present(alert, animated: true, completion: nil)
         }
     }
-        
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let contactNavVC = storyboard.instantiateViewController(withIdentifier: "StaticCells") as!
@@ -61,5 +62,5 @@ class ContactsTableViewController: UITableViewController {
         contactVC.contactID = contact.contactID
         present(contactNavVC, animated: true, completion: nil)
     }
-
+    
 }

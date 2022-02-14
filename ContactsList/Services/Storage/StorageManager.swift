@@ -38,7 +38,7 @@ class StorageManager {
     func save(_ object: ContactRealm) {
         do {
             try realm.write {
-                realm.add(object, update: .modified)
+                realm.add(object, update: .all)
                 print("Realm is located at:", realm.configuration.fileURL!)
             }
         } catch {

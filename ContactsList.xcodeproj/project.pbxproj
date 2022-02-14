@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4217904C27B906E400D9E3EC /* CheckMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217904B27B906E400D9E3EC /* CheckMark.swift */; };
 		421F2E072793EF95006FC1D7 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421F2E062793EF95006FC1D7 /* ImageManager.swift */; };
 		422688892770C93300B41B74 /* SuggestedContactsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422688882770C93300B41B74 /* SuggestedContactsResponse.swift */; };
 		422688902770D41900B41B74 /* EndpointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4226888F2770D41900B41B74 /* EndpointProtocol.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		06A4768B2C3A066D0EB6037D /* Pods-ContactsList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ContactsList.release.xcconfig"; path = "Target Support Files/Pods-ContactsList/Pods-ContactsList.release.xcconfig"; sourceTree = "<group>"; };
+		4217904B27B906E400D9E3EC /* CheckMark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckMark.swift; sourceTree = "<group>"; };
 		421F2E062793EF95006FC1D7 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		422688882770C93300B41B74 /* SuggestedContactsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedContactsResponse.swift; sourceTree = "<group>"; };
 		4226888F2770D41900B41B74 /* EndpointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointProtocol.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 		4228B825275F362400D10B33 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4217904B27B906E400D9E3EC /* CheckMark.swift */,
 				422688932770D5BC00B41B74 /* ImageViews */,
 				4228B826275F362C00D10B33 /* Cells */,
 			);
@@ -374,6 +377,7 @@
 				4228B82E2761128B00D10B33 /* ContactsNetworkManager.swift in Sources */,
 				4228B824275E9CC700D10B33 /* ContactTableViewCell.swift in Sources */,
 				4228B81E275E129E00D10B33 /* SuggestedContactsViewController.swift in Sources */,
+				4217904C27B906E400D9E3EC /* CheckMark.swift in Sources */,
 				4226889B27790A0400B41B74 /* ContactRealm.swift in Sources */,
 				42573508276A37D500529CD8 /* StorageManager.swift in Sources */,
 				422688922770D50300B41B74 /* NetworkError.swift in Sources */,

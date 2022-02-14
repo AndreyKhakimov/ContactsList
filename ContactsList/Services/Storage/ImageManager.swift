@@ -12,17 +12,22 @@ class ImageManager {
     
     static let shared = ImageManager()
     
-    private init() {}
+    private let fileManager: FileManager
+    
+    private init(fileManager: FileManager = FileManager.default) {
+        self.fileManager = fileManager
+    }
+    
     
     func imageURL(forPath path: String) -> URL {
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let url = documents.appendingPathComponent(path)
         return url
     }
     
     func saveImageOnDisk(image: UIImage, pathComponent: String, imageCompletionHandler: @escaping (String?) -> Void) {
         
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let fileName = pathComponent + ".jpg"
         let url = documents.appendingPathComponent(fileName)
         
@@ -38,7 +43,7 @@ class ImageManager {
     
     func saveImageOnDisk(image: UIImage, pathComponent: String) {
         
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
         let url = documents.appendingPathComponent(pathComponent)
         
@@ -51,9 +56,25 @@ class ImageManager {
         }
     }
     
+    func deleteImageFromDisk(pathComponent: String) {
+        let url = imageURL(forPath: pathComponent)
+        let path = url.path
+        
+        do {
+            if fileManager.fileExists(atPath: path) {
+                try fileManager.removeItem(atPath: path)
+            } else {
+                print("File does not exist")
+            }
+        }
+        catch let error as NSError {
+            print("An error took place: \(error.localizedDescription)")
+        }
+    }
+    
     func retrieveImage(with imagePath: String) -> UIImage? {
         
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
         let url = documents.appendingPathComponent(imagePath)
         
