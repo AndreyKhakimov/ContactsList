@@ -18,10 +18,54 @@ class ContactsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureDefaultState()
+        tableView.allowsMultipleSelectionDuringEditing = true
         contacts = try! Realm().objects(ContactRealm.self).sorted(byKeyPath: "lastName")
         token = contacts.observe(on: .main) { [weak self] results in
             self?.tableView.reloadData()
         }
+    }
+    
+    private func configureEditingState() {
+        tableView.setEditing(true, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelEditing))
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteSelectedRows))]
+        navigationItem.rightBarButtonItems?.first?.isEnabled = false
+    }
+    
+    private func configureDefaultState() {
+        tableView.setEditing(false, animated: true)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(deleteMultipleContacts))
+        let suggestionItem = UIBarButtonItem(title: "You may know", style: .plain, target: self, action: #selector(showSuggestions))
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showNewContact))
+        navigationItem.rightBarButtonItems = [addItem, suggestionItem]
+    }
+    
+    @objc private func deleteSelectedRows() {
+        for selectedItemIndex in tableView.indexPathsForSelectedRows?.reversed() ?? [] {
+            let contactToRemove = self.contacts[selectedItemIndex.row]
+            self.imageManager.deleteImageFromDisk(pathComponent: contactToRemove.localPicture ?? "")
+            self.storageManager.delete(contactToRemove)
+        }
+    }
+    
+    @objc private func showSuggestions() {
+        performSegue(withIdentifier: "suggestedContacts", sender: self)
+    }
+    
+    @objc private func showNewContact() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let contactNavVC = storyboard.instantiateViewController(withIdentifier: "StaticCells") as!
+        UINavigationController
+        present(contactNavVC, animated: true, completion: nil)
+    }
+    
+    @objc private func deleteMultipleContacts() {
+        configureEditingState()
+    }
+    
+    @objc private func cancelEditing() {
+        configureDefaultState()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,13 +98,25 @@ class ContactsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !tableView.isEditing else {
+            navigationItem.rightBarButtonItems?.first?.isEnabled = true
+            return
+        }
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let contactNavVC = storyboard.instantiateViewController(withIdentifier: "StaticCells") as!
         UINavigationController
         let contactVC = contactNavVC.viewControllers.first as! ContactViewControllerStaticCells
         let contact = contacts[indexPath.row]
         contactVC.contactID = contact.contactID
+        tableView.deselectRow(at: indexPath, animated: true)
         present(contactNavVC, animated: true, completion: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard !tableView.isEditing else {
+            navigationItem.rightBarButtonItems?.first?.isEnabled = tableView.indexPathsForSelectedRows?.isEmpty == false
+            return
+        }
     }
     
 }

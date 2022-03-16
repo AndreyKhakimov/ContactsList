@@ -11,7 +11,7 @@
         <!--Navigation Controller-->
         <scene sceneID="q5X-OR-4dr">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YWC-za-yOY" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="YWC-za-yOY" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="center" largeTitles="YES" id="jQO-bV-n6o">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -78,29 +78,24 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Contacts" id="KPf-ln-V9Y">
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="add" id="LRc-fh-7Aj">
-                                <connections>
-                                    <segue destination="NIr-Cu-eVQ" kind="presentation" id="6Ct-tv-Khq"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="You may know" id="yyw-Lw-MaP">
-                                <connections>
-                                    <segue destination="APh-gt-nFg" kind="show" id="rAG-NN-Tii"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem systemItem="add" id="LRc-fh-7Aj"/>
+                            <barButtonItem title="You may know" id="yyw-Lw-MaP"/>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <segue destination="APh-gt-nFg" kind="show" identifier="suggestedContacts" id="Tl9-SF-Blm"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oW6-90-rbs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="822" y="69"/>
+            <point key="canvasLocation" x="821.73913043478262" y="68.973214285714278"/>
         </scene>
         <!--Contact View Controller Static Cells-->
         <scene sceneID="jJJ-Kl-qXt">
             <objects>
                 <tableViewController id="ASs-eB-zKP" customClass="ContactViewControllerStaticCells" customModule="ContactsList" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="41Y-cl-SBj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <sections>
@@ -381,37 +376,36 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ImB-xu-pIa">
-                                            <rect key="frame" x="64" y="0.0" width="308" height="56"/>
+                                            <rect key="frame" x="64" y="0.0" width="41.333333333333343" height="56"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c48-Xp-RCg">
-                                            <rect key="frame" x="372" y="17" width="42" height="22"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gi8-Kk-MBl" customClass="CheckMark" customModule="ContactsList" customModuleProvider="target">
+                                            <rect key="frame" x="358" y="8" width="40" height="40"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <gestureRecognizers/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="42" id="LKs-Ry-7Wq"/>
+                                                <constraint firstAttribute="height" constant="40" id="7d4-Eu-BOu"/>
+                                                <constraint firstAttribute="width" constant="40" id="v8a-b9-RZD"/>
                                             </constraints>
-                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" title="" image="plus" catalog="system"/>
-                                            <state key="selected" image="checkmark.rectangle" catalog="system"/>
                                             <connections>
-                                                <action selector="suggestedContactButtonPressed:" destination="wIB-BH-16x" eventType="touchUpInside" id="UwU-yE-hF1"/>
+                                                <action selector="onButtonTapped" destination="wIB-BH-16x" eventType="touchUpInside" id="bc5-Rx-87i"/>
                                             </connections>
-                                        </button>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="hRT-xH-WME" firstAttribute="leading" secondItem="PJc-de-eK5" secondAttribute="leadingMargin" id="14y-r5-oNU"/>
-                                        <constraint firstAttribute="trailing" secondItem="c48-Xp-RCg" secondAttribute="trailing" id="DLk-QJ-hJW"/>
-                                        <constraint firstItem="c48-Xp-RCg" firstAttribute="centerY" secondItem="PJc-de-eK5" secondAttribute="centerY" id="PII-xN-iHQ"/>
+                                        <constraint firstAttribute="trailing" secondItem="gi8-Kk-MBl" secondAttribute="trailing" constant="16" id="7St-Qf-7b5"/>
                                         <constraint firstItem="ImB-xu-pIa" firstAttribute="leading" secondItem="hRT-xH-WME" secondAttribute="trailing" constant="8" id="QuS-4I-fMr"/>
-                                        <constraint firstItem="c48-Xp-RCg" firstAttribute="leading" secondItem="ImB-xu-pIa" secondAttribute="trailing" id="Wln-Fr-fSz"/>
                                         <constraint firstAttribute="bottom" secondItem="ImB-xu-pIa" secondAttribute="bottom" id="tqa-BG-aNQ"/>
                                         <constraint firstItem="ImB-xu-pIa" firstAttribute="top" secondItem="PJc-de-eK5" secondAttribute="top" id="ug1-20-ScW"/>
                                         <constraint firstItem="hRT-xH-WME" firstAttribute="top" secondItem="PJc-de-eK5" secondAttribute="top" constant="10" id="ynH-QS-1Go"/>
+                                        <constraint firstItem="gi8-Kk-MBl" firstAttribute="top" secondItem="PJc-de-eK5" secondAttribute="top" constant="8" id="zs9-SR-gt2"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="suggestedContactButton" destination="c48-Xp-RCg" id="a6g-7p-fm5"/>
+                                    <outlet property="checkMarkView" destination="gi8-Kk-MBl" id="5Ku-52-frd"/>
                                     <outlet property="suggestedContactImage" destination="hRT-xH-WME" id="lVl-Xc-Xs4"/>
                                     <outlet property="suggestedContactLabel" destination="ImB-xu-pIa" id="uh4-dw-b1c"/>
                                 </connections>
@@ -426,15 +420,16 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6SK-b6-n7K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1686" y="-425"/>
+            <point key="canvasLocation" x="1725" y="-232"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nSt-Q3-aRp">
             <objects>
                 <navigationController storyboardIdentifier="StaticCells" automaticallyAdjustsScrollViewInsets="NO" id="NIr-Cu-eVQ" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="YYF-UO-ee4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1vf-Lr-p9j">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -448,10 +443,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="checkmark.rectangle" catalog="system" width="128" height="93"/>
         <image name="p" width="128" height="128"/>
         <image name="photo.artframe" catalog="system" width="128" height="93"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

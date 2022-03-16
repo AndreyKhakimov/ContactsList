@@ -12,14 +12,14 @@ class SuggestedContactCell: UITableViewCell {
     
     @IBOutlet private weak var suggestedContactLabel: UILabel!
     @IBOutlet private weak var suggestedContactImage: UIImageView!
-    @IBOutlet private weak var suggestedContactButton: UIButton!
+    @IBOutlet weak var checkMarkView: CheckMark!
     
     private var onPlusTapped: (() -> Void)?
+    private var isAdded: Bool = false
     
-    @IBAction func suggestedContactButtonPressed(_ sender: Any) {
-        guard !suggestedContactButton.isSelected else { return }
-        onPlusTapped?()
-        setIsAdded(true)
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        checkMarkView.addTarget(self, action:  #selector(onButtonTapped), for: .touchUpInside)
     }
     
     override func prepareForReuse() {
@@ -42,10 +42,21 @@ class SuggestedContactCell: UITableViewCell {
         }
         suggestedContactLabel.text = name
         self.onPlusTapped = onPlusTapped
-        setIsAdded(isAdded)
+        self.isAdded = isAdded
+        setIsAdded(isAdded, animated: false)
     }
     
-    func setIsAdded(_ value: Bool) {
-        suggestedContactButton.isSelected = value
+    func setIsAdded(_ value: Bool, animated: Bool) {
+        value ? checkMarkView.showCheckMark(animated: animated) : checkMarkView.changeToPlusAnimation(animated: animated)
     }
+    
+    @IBAction
+    func onButtonTapped() {
+        print("ON button tapped \(suggestedContactLabel.text!) -----")
+        guard !isAdded else { return }
+        
+        setIsAdded(true, animated: true)
+        onPlusTapped?()
+    }
+    
 }

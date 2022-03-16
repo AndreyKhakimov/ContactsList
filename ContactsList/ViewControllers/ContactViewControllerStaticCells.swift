@@ -165,17 +165,7 @@ class ContactViewControllerStaticCells: UITableViewController {
     
     @objc func dataDidChange() {
         if let firstName = firstNameTF.text,
-//           let lastName = lastNameTF.text,
-//           let cellPhone = cellPhoneTF.text,
-//           let homePhone = homePhoneTF.text,
-//           let email = emailTF.text,
-//           let location = addressTF.text,
            !firstName.isEmpty
-//           !lastName.isEmpty,
-//           !cellPhone.isEmpty,
-//           !homePhone.isEmpty,
-//           !email.isEmpty,
-//           !location.isEmpty
         {
              doneButton.isEnabled = true
         } else {

@@ -7,10 +7,46 @@
 
 import UIKit
 
-class CheckMark: UIView {
+class CheckMark: UIControl {
 
+    enum Shape {
+        case plus, checkmark
+        
+        func path(size: CGSize) -> CGPath {
+            switch self {
+            case .plus:
+                let point1 = CGPoint(x: size.width * 0.2, y: 0.5 * size.height)
+                let point2 = CGPoint(x: size.width * 0.8, y: 0.5 * size.height)
+                let point3 = CGPoint(x: size.width * 0.5, y: 0.8 * size.height)
+                let point4 = CGPoint(x: size.width * 0.5, y: 0.2 * size.height)
+
+                let plus = UIBezierPath()
+                plus.move(to: point1)
+                plus.addLine(to: point2)
+                plus.move(to: point3)
+                plus.addLine(to: point4)
+                return plus.cgPath
+               
+            case .checkmark:
+                let point1 = CGPoint(x: size.width * 0.1 , y: 0.3 * size.height)
+                let point2 = CGPoint(x: size.width * 0.4, y: 0.8 * size.height)
+                let point3 = CGPoint(x: size.width * 0.4, y: 0.8 * size.height)
+                let point4 = CGPoint(x: size.width * 1, y: 0 * size.height)
+
+                let curvedCheckMark = UIBezierPath()
+                curvedCheckMark.move(to: point1)
+                curvedCheckMark.addLine(to: point2)
+                curvedCheckMark.move(to: point3)
+
+                curvedCheckMark.addLine(to: point4)
+                return curvedCheckMark.cgPath
+            }
+        }
+    }
+    
     private let animatedLayer = CAShapeLayer()
     private let gradientLayer = CAGradientLayer()
+    private var shape: Shape = .plus
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,51 +76,40 @@ class CheckMark: UIView {
         gradientLayer.type = .radial
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        gradientLayer.colors = [UIColor.red.cgColor, UIColor.yellow.cgColor]
+        gradientLayer.colors = [UIColor.green.cgColor, UIColor.yellow.cgColor]
         gradientLayer.mask = animatedLayer
     }
 
     private func updatePath() {
-        let point1 = CGPoint(x: bounds.width * 0.1 , y: 0.3 * bounds.height)
-        let point2 = CGPoint(x: bounds.width * 0.4, y: 0.8 * bounds.height)
-        let point3 = CGPoint(x: bounds.width * 0.4, y: 0.8 * bounds.height)
-        let point4 = CGPoint(x: bounds.width * 1, y: 0 * bounds.height)
-
-        let curvedCheckMark = UIBezierPath()
-        curvedCheckMark.move(to: point1)
-        curvedCheckMark.addLine(to: point2)
-        curvedCheckMark.move(to: point3)
-
-        curvedCheckMark.addLine(to: point4)
-
-        animatedLayer.path = curvedCheckMark.cgPath
+        animatedLayer.path = shape.path(size: bounds.size)
     }
 
-    func startAnimation() {
-        animatedLayer.strokeEnd = 1
-
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.duration = 3
-        animation.fromValue = 0
-        animation.toValue = 1
-        animatedLayer.add(animation, forKey: "path")
+    func removeAllAnimations() {
+        animatedLayer.removeAllAnimations()
     }
     
-    func changeToPlusAnimation() {
-        let point1 = CGPoint(x: bounds.width * 0.2 , y: 0.5 * bounds.height)
-        let point2 = CGPoint(x: bounds.width * 0.8, y: 0.5 * bounds.height)
-        let point3 = CGPoint(x: bounds.width * 0.5, y: 0.8 * bounds.height)
-        let point4 = CGPoint(x: bounds.width * 0.5, y: 0.2 * bounds.height)
-
-        let curvedCheckMark = UIBezierPath()
-        curvedCheckMark.move(to: point1)
-        curvedCheckMark.addLine(to: point2)
-        curvedCheckMark.move(to: point3)
-        curvedCheckMark.addLine(to: point4)
+    func showCheckMark(animated: Bool) {
+        shape = .checkmark
+        updatePath()
+        animatedLayer.strokeEnd = 1
+        guard animated else { return }
+        print("Show checkmark tapped -----")
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = 0.8
+        animation.fromValue = 0
+        animation.toValue = 1
+        animatedLayer.add(animation, forKey: "Andrey")
+    }
+    
+    func changeToPlusAnimation(animated: Bool) {
+        animatedLayer.strokeEnd = 1
+        shape = .plus
         let oldPath = animatedLayer.path
-        let newPath = curvedCheckMark.cgPath
-        
+        let newPath = shape.path(size: bounds.size)
         animatedLayer.path = newPath
+        
+        guard animated else { return }
+        print("Show plus tapped -----")
         let animation = CABasicAnimation(keyPath: "path")
         animation.duration = 3
         animation.fromValue = oldPath

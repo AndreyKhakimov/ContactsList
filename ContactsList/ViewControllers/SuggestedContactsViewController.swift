@@ -18,28 +18,9 @@ class SuggestedContactsViewController: UITableViewController {
     
     var contacts = [SuggestedContact]()
     var addedContacts: Results<ContactRealm>!
-//    var addedContactsIndexPaths = Set<IndexPath>()
-//    var imagePath: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    addedContacts = try! Realm().objects(ContactRealm.self)
-    token = addedContacts?.observe(on: .main, { [weak self] _ in
-            guard let self = self else { return }
-            self.tableView.reloadData()
-        })
-        //            switch results {
-        //            case .initial:
-        //                self?.tableView.reloadData()
-        //            case .error(let error):
-        //                self?.showAlert(title: "Error", message: error.localizedDescription)
-        //            case .update(_, let deletions, let insertions, let modifications):
-        //                self?.tableView.beginUpdates()
-        //                self?.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0)}, with: .automatic)
-        //                self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0)}, with: .automatic)
-        //                self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0)}, with: .automatic)
-        //                self?.tableView.endUpdates()
-        //            }
         fetchData(with: 100)
         setupRefreshControl()
     }
@@ -57,6 +38,7 @@ class SuggestedContactsViewController: UITableViewController {
             image: imageURL,
             name: contact.name?.fullname ?? "",
             onPlusTapped: { [weak self] in
+                print("ON plus tapped -----")
                 guard let self = self else { return }
                 var image: UIImage?
                 
@@ -113,7 +95,7 @@ class SuggestedContactsViewController: UITableViewController {
             contactVC.doneButton.title = "Add"
             contactVC.dataDidChange()
         }
-
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     private func fetchData(with personNumber: Int) {
