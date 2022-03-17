@@ -28,9 +28,9 @@ class CheckMark: UIControl {
                 return plus.cgPath
                
             case .checkmark:
-                let point1 = CGPoint(x: size.width * 0.1 , y: 0.3 * size.height)
-                let point2 = CGPoint(x: size.width * 0.4, y: 0.8 * size.height)
-                let point3 = CGPoint(x: size.width * 0.4, y: 0.8 * size.height)
+                let point1 = CGPoint(x: size.width * 0.2 , y: 0.3 * size.height)
+                let point2 = CGPoint(x: size.width * 0.5, y: 0.8 * size.height)
+                let point3 = CGPoint(x: size.width * 0.5, y: 0.8 * size.height)
                 let point4 = CGPoint(x: size.width * 1, y: 0 * size.height)
 
                 let curvedCheckMark = UIBezierPath()
@@ -70,13 +70,13 @@ class CheckMark: UIControl {
 
         animatedLayer.fillColor = UIColor.clear.cgColor
         animatedLayer.strokeColor = UIColor.red.cgColor
-        animatedLayer.lineWidth = 6
+        animatedLayer.lineWidth = 5
         animatedLayer.strokeEnd = 0
         animatedLayer.lineCap = .round
         gradientLayer.type = .radial
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        gradientLayer.colors = [UIColor.green.cgColor, UIColor.yellow.cgColor]
+        gradientLayer.colors = [UIColor.green.cgColor, UIColor.systemGreen.cgColor]
         gradientLayer.mask = animatedLayer
     }
 
