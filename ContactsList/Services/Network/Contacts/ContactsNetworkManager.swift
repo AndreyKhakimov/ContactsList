@@ -11,21 +11,13 @@ import UIKit
 class ContactsNetworkManager {
     
     private enum Endpoints: EndpointProtocol {
-        case getContacts(Int)
         
-        var url: URL {
-            var query = ""
+        case getSuggestedContacts(Int)
+        
+        var query: String {
             switch self {
-            case .getContacts(let number):
-                query = "/?results=\(number)"
-            }
-            
-            return URL(string: Endpoints.hostURL + query)!
-        }
-        var httpMethod: String {
-            switch self {
-            case .getContacts:
-                return "GET"
+            case .getSuggestedContacts(let number):
+                return "/?results=\(number)"
             }
         }
     }
@@ -34,7 +26,7 @@ class ContactsNetworkManager {
     
     func getSuggestedContacts(count: Int, completion: @escaping (Result<[SuggestedContact], NetworkError>) -> Void) {
         networkManager.sendRequest(
-            endpoint: Endpoints.getContacts(count),
+            endpoint: Endpoints.getSuggestedContacts(count),
             completion: { (result: Result<SuggestedContactsResponse, NetworkError>) in
                 switch result {
                 case .success(let contacts):
