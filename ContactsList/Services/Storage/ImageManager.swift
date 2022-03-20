@@ -72,6 +72,12 @@ class ImageManager {
         }
     }
     
+    func deleteImagesFromDisk(pathComponents: [String]) {
+        for pathComponent in pathComponents {
+            deleteImageFromDisk(pathComponent: pathComponent)
+        }
+    }
+    
     func retrieveImage(with imagePath: String) -> UIImage? {
         
         let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]

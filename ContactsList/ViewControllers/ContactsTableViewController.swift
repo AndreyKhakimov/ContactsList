@@ -42,11 +42,12 @@ class ContactsTableViewController: UITableViewController {
     }
     
     @objc private func deleteSelectedRows() {
-        for selectedItemIndex in tableView.indexPathsForSelectedRows?.reversed() ?? [] {
-            let contactToRemove = self.contacts[selectedItemIndex.row]
-            self.imageManager.deleteImageFromDisk(pathComponent: contactToRemove.localPicture ?? "")
-            self.storageManager.delete(contactToRemove)
-        }
+        let contactsArray = tableView.indexPathsForSelectedRows?.reversed().compactMap({ [contacts] indexPath in
+            contacts?[indexPath.row]
+        }) ?? []
+        let contactsImages = contactsArray.map { $0.localPicture ?? "" }
+        imageManager.deleteImagesFromDisk(pathComponents: contactsImages)
+        storageManager.delete(contactsArray)
     }
     
     @objc private func showSuggestions() {
